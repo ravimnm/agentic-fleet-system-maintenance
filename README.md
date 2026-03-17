@@ -1,315 +1,79 @@
-Agentic Fleet Predictive Maintenance System
-Overview
+# 🚗 Agentic Fleet Predictive Maintenance System
 
-This project is a fleet risk intelligence and predictive maintenance platform that combines:
+## Overview
 
-telemetry ingestion
+This project is a fleet risk intelligence and predictive maintenance platform combining telemetry ingestion, machine learning, and modular processing architecture.
 
-machine learning-based failure prediction
+---
 
-rule-based diagnostics
+## Architecture
 
-modular agent-style processing
+CSV / API → MongoDB → ML Model → Processing Pipeline → FastAPI → React Dashboard
 
-full-stack visualization
+---
 
-It is designed as a production-style prototype demonstrating backend architecture, ML integration, and decision workflows for fleet operations.
+## Core Components
 
-Architecture
-CSV / API Input
-        ↓
-   MongoDB (Telemetry Storage)
-        ↓
-   ML Prediction Layer
-        ↓
-   Processing Pipeline (Agent Modules)
-        ↓
-   FastAPI Backend (RBAC APIs)
-        ↓
-   React Dashboard
-Core Components
-1. Data Pipeline
+### Data Pipeline
+- CSV ingestion
+- MongoDB collections for telemetry, predictions, risk logs, alerts, and maintenance events
 
-CSV telemetry ingestion
+### Processing Pipeline
+- Rule evaluation
+- ML prediction
+- Diagnostics
+- Risk scoring
+- Scheduling
+- Recommendations
+- Feedback logging
 
-MongoDB collections:
+### Machine Learning
+- scikit-learn model
+- 26 telemetry features
+- Outputs failure probability (0–1)
 
-vehicles
+### API Layer
+- FastAPI with modular routes
+- RBAC enforcement (basic)
 
-telemetry
+### Frontend
+- React + Vite + Tailwind
+- Dashboard, analytics, alerts, audit logs
 
-predictions
+---
 
-risk_logs
+## Setup
 
-maintenance_events
+### Backend
+cd backend  
+pip install -r requirements.txt  
+uvicorn main:app --reload  
 
-alerts
+### Frontend
+cd frontend  
+npm install  
+npm run dev  
 
-agent_actions
+---
 
-feedback
+## Limitations
 
-2. Processing Pipeline (Agent Modules)
+- Deterministic pipeline (not autonomous)
+- No event-driven processing
+- No real-time streaming
+- Basic authentication
 
-The system uses modular processing units (referred to as agents) coordinated by a central orchestrator.
+---
 
-Execution Flow
-Telemetry Input
-   ↓
-Rule Evaluation
-   ↓
-ML Prediction
-   ↓
-Diagnostics
-   ↓
-Risk Scoring
-   ↓
-Maintenance Scheduling
-   ↓
-Recommendations
-   ↓
-Feedback Logging
-Modules
+## Future Work
 
-RuleAgent → detects rule-based anomalies
+- Agent planning layer
+- Event-driven architecture
+- Real-time ingestion
+- Strong authentication
 
-PredictionAgent → ML inference (failure probability)
+---
 
-DiagnosticsAgent → analyzes telemetry patterns
+## Summary
 
-RiskAgent → computes overall risk score
-
-SchedulingAgent → generates maintenance plans
-
-RecommendationAgent → suggests actions
-
-FeedbackAgent → captures operator input
-
-Note: Current system uses deterministic orchestration, not autonomous planning.
-
-3. Machine Learning
-
-Model: scikit-learn (joblib)
-
-Input: 26 telemetry features
-
-Output:
-
-failure probability (0–1)
-
-predicted event type
-
-Features include:
-
-engine RPM
-
-coolant temperature
-
-oil pressure
-
-battery voltage
-
-vehicle speed
-
-braking behavior
-
-tire pressure
-
-fuel consumption
-
-Data Handling
-
-Missing values → median imputation
-
-Automatic numeric feature detection
-
-4. API Layer (FastAPI)
-Key Endpoints
-POST   /api/telemetry/ingest
-GET    /api/telemetry/latest/{vehicleId}
-POST   /api/predict
-GET    /api/predict/{vehicleId}
-GET    /api/risk/{vehicleId}
-GET    /api/fleet/overview
-GET    /api/fleet/top-risk
-GET    /api/fleet/agent-actions
-POST   /api/feedback
-POST   /api/bot/chat
-GET    /api/assist/breakdown/{vehicleId}
-GET    /api/alerts
-Features
-
-dependency injection (FastAPI)
-
-modular routing
-
-basic RBAC enforcement
-
-5. Frontend (React + Vite)
-Pages
-
-Fleet Dashboard (admin)
-
-Vehicle Analytics (user)
-
-Risk Analytics
-
-Alerts Management
-
-Agent Timeline (audit logs)
-
-Breakdown Assistance
-
-Features
-
-role-based UI filtering
-
-charts (Recharts)
-
-explainability panels
-
-assistant widget
-
-6. Breakdown Assistance
-
-Triggered when:
-
-risk > 0.8 OR failure_probability > 0.85
-
-Provides:
-
-nearest service center (Haversine distance)
-
-highest-rated center
-
-contact + navigation options
-
-7. Audit & Explainability
-
-All system actions are logged:
-
-agent_actions collection
-
-Each record includes:
-
-agent name
-
-decision
-
-reasoning
-
-timestamp
-
-Technology Stack
-Layer	Technology
-Frontend	React, Vite, Tailwind CSS
-Backend	FastAPI, Python
-Database	MongoDB
-ML	scikit-learn, Pandas
-Visualization	Recharts
-Auth	Mock RBAC (localStorage + API checks)
-Project Structure
-backend/
-  agents/
-  api/
-  database/
-  ml/
-  utils/
-  scripts/
-
-frontend/
-  src/
-    components/
-    pages/
-    context/
-    api/
-
-models/
-data/
-Setup
-Prerequisites
-
-Python 3.10+
-
-Node.js 18+
-
-MongoDB running locally
-
-Backend
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-Frontend
-cd frontend
-npm install
-npm run dev
-Access
-http://localhost:5173
-Design Principles
-
-modular architecture (SRP)
-
-separation of ML and API layers
-
-auditability of decisions
-
-explainable outputs
-
-scalable backend structure
-
-Current Limitations
-
-This is a deterministic pipeline, not a fully autonomous agent system.
-
-Limitations:
-
-no dynamic planning or tool selection
-
-no feedback loop / iterative reasoning
-
-no event-driven architecture (batch/request-based)
-
-no real-time streaming (Kafka, MQTT, etc.)
-
-basic RBAC (no JWT / auth server)
-
-Future Improvements
-
-introduce planner + tool abstraction
-
-event-driven ingestion (Kafka / Redis streams)
-
-real-time telemetry processing
-
-feedback loop for post-maintenance evaluation
-
-stronger authentication (JWT / OAuth)
-
-model retraining pipeline
-
-Purpose
-
-This project demonstrates:
-
-backend system design
-
-ML integration in production-style pipelines
-
-modular processing architecture
-
-full-stack engineering capability
-
-Summary
-
-This is a well-structured predictive maintenance system with:
-
-strong backend foundations
-
-integrated ML pipeline
-
-clear system observability
-
-practical fleet use case
-
-It is not yet a true autonomous agent system, but provides a solid base to evolve into one.
+A production-style prototype demonstrating backend engineering, ML integration, and system design for fleet maintenance.
